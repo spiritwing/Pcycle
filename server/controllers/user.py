@@ -6,6 +6,18 @@ import models.users
 from datetime import datetime
 from helpers.utils import createSessionId
 
+user:
+    userid, username , ....
+
+user_session:
+    userid sessionId
+
+user_uuid:
+    userid uuid
+
+
+
+
 class get_user:
     def GET(self):
         data = web.input()
