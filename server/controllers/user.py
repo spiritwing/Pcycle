@@ -4,24 +4,12 @@
 import web,json
 import models.users
 from datetime import datetime
-from helpers.utils import createSessionId
-
-user:
-    userid, username , ....
-
-user_session:
-    userid sessionId
-
-user_uuid:
-    userid uuid
-
-
-
+from helpers.utils import createSession
 
 class get_user:
     def GET(self):
         data = web.input()
-        if not data.has_key("sessionId") or not data.has_key("username"):
+        if not data.has_key("sessionId") and not data.has_key("username"):
             return web.notfound()
 
         user = None
@@ -62,8 +50,7 @@ class new_user:
             createdate = datetime.now()
         )
 
-        sessionId = createSessionId()
-        models.users.update(user,sessionId=sessionId)
+        sessionId = createSession(userid = user.ID) 
         return json.dumps({"sessionId":sessionId})
 
 
