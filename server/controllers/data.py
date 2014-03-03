@@ -12,6 +12,8 @@ class test:
 
 class version:
     def GET(self):
+       return json.dumps({"version":current_version})
+"""
         data = web.input()
         if not data.has_key("version"):
             return web.notfound()
@@ -23,6 +25,7 @@ class version:
                 return json.dumps({"state":1})
         except:
             return web.notfound()
+"""
 
 
 class traindata:

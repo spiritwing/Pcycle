@@ -6,12 +6,11 @@ import models.users
 from datetime import datetime
 from helpers.utils import createSession
 
-class get_user:
+class user_ctrl:
     def GET(self):
         data = web.input()
         if not data.has_key("sessionId") and not data.has_key("username"):
             return web.notfound()
-
         user = None
         if data.has_key("sessionId"):
             user = models.users.getUserBySessionId(data.sessionId)
@@ -19,39 +18,74 @@ class get_user:
             if data.has_key("username"):
                 user = models.users.getUserByUsername(data.username)
         if user:
-            return json.dumps(user)
+            return json.dumps({
+                "userName": user.userName,
+                "userPhoneNumber": user.userPhoneNumber,
+                "userWeight": user.userWeight,
+                "userHeight": user.userHeight,
+                "userAge": user.userAge,
+                "userMaxStamina": user.userMaxStamina,
+                "userMaxStaminaTimeStamp": user.userMaxStaminaTimeStamp,
+                "userLastStamina": user.userLastStamina,
+                "userTotalMileage": user.userTotalMileage,
+                "userFrontalArea": user.userFrontalArea,
+                "userMaxSpeed": user.userMaxSpeed,
+                "userMaxSpeedTimeStamp": user.userMaxSpeedTimeStamp,
+                "userMaxPower": user.userMaxPower,
+                "userMaxPowerTimeStamp": user.userMaxPowerTimeStamp 
+            })
         else:
-            return json.dumps({"error":"invalid sessionId or username"})
+            return json.dumps({"errorcode":1001})
 
 
-class new_user:
     def POST(self):
         data = web.input()
-        ##必填项判断
-        if not data.has_key("username"):
-            return json.dumps({"error":"userinfo not enough"})
-        username = data.username
-        ##选填项
-        weight,height,age,frontalArea = None,None,None,None
-        try:
-            weight = int(data.weight)
-            height = int(data.height)
-            age = int(data.age)
-            frontalArea = float(data.frontalArea)
-        except:
-            pass
+        
+        if not data.has_key("type"):
+            return web.notfound()
 
-        user = models.users.create("user",
-            username = username,
-            weight = weight,
-            height = height,
-            age = age,
-            frontalArea = frontalArea,
-            createdate = datetime.now()
-        )
+        if data.type == "new":
+            ##必填项判断
+            if not data.has_key("userName"):
+                return json.dumps({"error":1001})
+            userName = data.userName
+            ##选填项
+            userWeight,userHeight,userAge,userPhoneNumber = None,None,None,None
+            try:
+                userWeight = int(data.userWeight)
+                userHeight = int(data.userHeight)
+                userAge = int(data.userAge)
+                userPhoneNumber = data.userPhoneNumber
+            except:
+                pass
 
-        sessionId = createSession(userid = user.ID) 
-        return json.dumps({"sessionId":sessionId})
+            user = models.users.create("user_info",
+                userName = userName,
+                userWeight = userWeight,
+                userHeight = userHeight,
+                userAge = userAge,
+                userPhoneNumber = userPhoneNumber,
+                createdate = datetime.now()
+            )
+
+            sessionId = createSession(userid = user.userid) 
+            return json.dumps({"sessionId":sessionId , "code":1})
+
+        elif data.type == "update":
+            if not data.has_key("sessionId"):
+                return json.dumps({"errorCode":1001})
+            u_d = dict()
+            if data.has_key("userName") and data.userName:
+                u_d.update({"userName":data.userName})
+            if data.has_key("userWeight") and data.userWeight:
+                u_d.update({"userWeight":int(data.userWeight)})
+            if data.has_key("userHeight") and data.userHeight:
+                u_d.update({"userHeight":int(data.userHeight)})
+            if data.has_key("userAge") and data.userAge:
+                u_d.update({"userAge":int(data.userAge)})
+            if data.has_key("userPhoneNumber") and data.userPhoneNumber:
+                u_d.update({"userPhoneNumber":data.userPhoneNumber})
+            models.users.update("user_info",where="userid=$userid",vars=dict(userid=userid),)
 
 
 

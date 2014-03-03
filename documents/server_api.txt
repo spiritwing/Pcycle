@@ -34,7 +34,7 @@ response
         userMaxPowerTimeStamp
 
 
-3. 注册新user
+3. 注册或更新用户
 request
     url: /user
     method: post
@@ -86,4 +86,5 @@ response
     
 
 
-
+errorCode: 
+1001   "invalid sessionId or username"

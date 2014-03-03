@@ -7,8 +7,7 @@ import web
 urls = (
     "/","controllers.data.test",
     "/version","controllers.data.version",
-    "/user","controllers.user.get_user",
-    "/register","controllers.user.new_user",
+    "/user","controllers.user.user_ctrl",
 )
 
 app = web.application(urls,globals())
