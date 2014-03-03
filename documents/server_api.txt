@@ -1,0 +1,89 @@
+1. 请求最新版本号
+request
+    url: /version
+    method: get
+    example: /version
+
+response
+    format:json
+    example:{"version":"0.2"}
+
+
+2. 请求user基本信息
+request
+    url: /user
+    method: get
+    *name: session_id or username
+    example: /user?sessionId=3jff3kd3mmvhsfffsfaa
+response
+    format:json
+    name: 
+        userName
+        userPhoneNumber
+        userWeight
+        userHeight
+        userAge
+        userMaxStamina
+        userMaxStaminaTimeStamp
+        userLastStamina
+        userTotalMileage
+        userFrontalArea
+        userMaxSpeed
+        userMaxSpeedTimeStamp
+        userMaxPower
+        userMaxPowerTimeStamp
+
+
+3. 注册新user
+request
+    url: /user
+    method: post
+    name:
+        *type: new or update
+            if update *sessionId
+        userName
+        userPhoneNumber
+        userWeight
+        userHeight
+        userAge
+
+response
+    example: {"code":1 成功, 0错误, 
+        if new "sessionId":"3jff3kd3mmvhsfffsfaa"
+        if error "errorCode":1001
+        }
+
+
+
+4. 上传数据
+request
+    url: /data
+    method: post
+    name:
+        *sessionId
+        *data compressed
+
+response:
+    example:{
+        "code":1 成功, 0 错误
+        "timestampe":13849284 最后一项数据的timestamp
+    }
+
+
+5. 获取数据
+request
+    url: /data
+    method: get
+    name:
+        *sessionId
+        *startStamp
+        *endStamp
+response
+    example:{
+        "code":1 成功, 0 错误
+        "data":compressed json data
+    }
+    
+
+
+
