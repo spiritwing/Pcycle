@@ -9,15 +9,18 @@ from helpers.utils import createSession,getUserId
 class user_ctrl:
     def GET(self):
         data = web.input()
-        if not data.has_key("sessionId") and not data.has_key("username"):
+        if not data.has_key("sessionId") and not data.has_key("userName"):
             return web.notfound()
         user = None
         if data.has_key("sessionId"):
             userid = getUserId(data.sessionId)
             user = models.users.getUserByID(userid)
+        """
+            注意：用username获取用户有安全隐患，最好注册时输下密码，这样再返回sessionid比较合适
+        """
         if not user:
-            if data.has_key("username"):
-                user = models.users.getUserByUsername(data.username)
+            if data.has_key("userName"):
+                user = models.users.getUserByUsername(data.userName)
         if user:
             return json.dumps({
                 "userName": user.userName,
