@@ -61,12 +61,12 @@ request
     method: post
     name:
         *sessionId
-        *data compressed
+        *datafile compressed
 
 response:
     example:{
         "code":1 成功, 0 错误
-        "timestampe":13849284 最后一项数据的timestamp
+        "last_timestampe":13849284 最后一项数据的timestamp
     }
 
 
@@ -89,3 +89,4 @@ response
 errorCode: 
 1001   "invalid sessionId or username"
 1002   "username has existed"
+1003   "data compressed error"

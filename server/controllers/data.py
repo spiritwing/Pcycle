@@ -1,8 +1,12 @@
 #!/usr/bin/python
 #coding:utf-8
 
-import web,json
+import web,json,zlib
 from settings import current_version
+from datetime import datetime
+from helpers.utils import getUserId
+import models.datas
+
 
 
 class test:
@@ -28,7 +32,32 @@ class version:
 """
 
 
-class traindata:
+class data_pack:
+    def POST(self):
+        data = web.input(datafile={})
+        """
+        if not data.has_key("sessionId") or not data.sessionId:
+            return web.notfound()
+        """
+        sessionId = data['datafile'].filename
+        userid = getUserId(sessionId)
+        if not userid:
+            return json.dumps({"errorCode":1001})
+        data_compressed = None
+        try:
+            data_compressed = zlib.decompress(data['datafile'].value)
+        except:
+            return json.dumps({"errorCode":1003})
+        data_json = json.loads(data_compressed)["data"]
+        for d in data_json:
+            d.update({"userid":userid})
+        r = models.datas.multiple_insert(data_json)
+        last_timestamp = 4342434 ##models.datas.getLastTimeStamp(userid)
+        if r:
+            return json.dumps({"code":1,"last_timestampe":last_timestamp})
+        else:
+            return json.dumps({"code":0,"last_timestampe":last_timestamp})
+
+
     def GET(self):
-        data = web.input()
-        sessionId = data.sessionId
+        pass
