@@ -4,7 +4,7 @@
 import web,json,zlib
 from settings import current_version
 from datetime import datetime
-from helpers.utils import getUserId
+from helpers.utils import getUserId,date_to_timestamp,timestamp_to_date
 import models.datas
 
 
@@ -50,9 +50,9 @@ class data_pack:
             return json.dumps({"errorCode":1003})
         data_json = json.loads(data_compressed)["data"]
         for d in data_json:
-            d.update({"userid":userid})
+            d.update({"userid":userid,"timeStamp":timestamp_to_date(d["timeStamp"])})
         r = models.datas.multiple_insert(data_json)
-        last_timestamp = 4342434 ##models.datas.getLastTimeStamp(userid)
+        last_timestamp = models.datas.getLastTimeStamp(userid)
         if r:
             return json.dumps({"code":1,"last_timestampe":last_timestamp})
         else:

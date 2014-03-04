@@ -2,6 +2,7 @@
 #coding:utf-8
 import os,time,web,itertools
 from settings import dbconn,session_secret_key
+from datetime import datetime
 try:
     import hashlib
     sha1 = hashlib.sha1
@@ -60,4 +61,11 @@ def createSession(userid):
         data = userid 
     )
     return session_id
+
+
+def date_to_timestamp(dt):
+    return time.mktime(dt.timetuple())
+
+def timestamp_to_date(ts):
+    return datetime.fromtimestamp(ts)
 
