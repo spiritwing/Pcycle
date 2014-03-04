@@ -79,18 +79,18 @@ class user_ctrl:
             userid = getUserId(data.sessionId)
             if not userid:
                 return json.dumps({"errorCode":1001})
-            u_d = dict()
+            u_dict = dict()
             if data.has_key("userName") and data.userName:
-                u_d.update({"userName":data.userName})
+                u_dict.update({"userName":data.userName})
             if data.has_key("userWeight") and data.userWeight:
-                u_d.update({"userWeight":int(data.userWeight)})
+                u_dict.update({"userWeight":int(data.userWeight)})
             if data.has_key("userHeight") and data.userHeight:
-                u_d.update({"userHeight":int(data.userHeight)})
+                u_dict.update({"userHeight":int(data.userHeight)})
             if data.has_key("userAge") and data.userAge:
-                u_d.update({"userAge":int(data.userAge)})
+                u_dict.update({"userAge":int(data.userAge)})
             if data.has_key("userPhoneNumber") and data.userPhoneNumber:
-                u_d.update({"userPhoneNumber":data.userPhoneNumber})
-            models.users.update("user_info",where="userid=$userid",vars=dict(userid=userid),**u_d)
+                u_dict.update({"userPhoneNumber":data.userPhoneNumber})
+            models.users.update(userid,u_dict)
             return json.dumps({"code":1})
 
 

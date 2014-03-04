@@ -34,3 +34,8 @@ def create(**argv):
     **argv
     )
     return user
+
+
+def update(userid,u_dict):
+    dbconn.update("user_info",where="userid=$userid",vars=dict(userid=userid),**u_dict)
+    return True
