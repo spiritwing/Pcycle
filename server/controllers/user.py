@@ -4,7 +4,7 @@
 import web,json
 import models.users
 from datetime import datetime
-from helpers.utils import createSession
+from helpers.utils import createSession,getUserId
 
 class user_ctrl:
     def GET(self):
@@ -13,7 +13,8 @@ class user_ctrl:
             return web.notfound()
         user = None
         if data.has_key("sessionId"):
-            user = models.users.getUserBySessionId(data.sessionId)
+            userid = getUserId(data.sessionId)
+            user = models.users.getUserByID(userid)
         if not user:
             if data.has_key("username"):
                 user = models.users.getUserByUsername(data.username)
@@ -39,8 +40,7 @@ class user_ctrl:
 
 
     def POST(self):
-        data = web.input()
-        
+        data = web.input() 
         if not data.has_key("type"):
             return web.notfound()
 
@@ -59,20 +59,22 @@ class user_ctrl:
             except:
                 pass
 
-            user = models.users.create("user_info",
+            userid = models.users.create(
                 userName = userName,
                 userWeight = userWeight,
                 userHeight = userHeight,
                 userAge = userAge,
                 userPhoneNumber = userPhoneNumber,
-                createdate = datetime.now()
-            )
+                )
 
-            sessionId = createSession(userid = user.userid) 
+            sessionId = createSession(userid = userid)
             return json.dumps({"sessionId":sessionId , "code":1})
 
         elif data.type == "update":
             if not data.has_key("sessionId"):
+                return json.dumps({"errorCode":1001})
+            userid = getUserId(data.sessionId)
+            if not userid:
                 return json.dumps({"errorCode":1001})
             u_d = dict()
             if data.has_key("userName") and data.userName:
@@ -85,8 +87,7 @@ class user_ctrl:
                 u_d.update({"userAge":int(data.userAge)})
             if data.has_key("userPhoneNumber") and data.userPhoneNumber:
                 u_d.update({"userPhoneNumber":data.userPhoneNumber})
-            models.users.update("user_info",where="userid=$userid",vars=dict(userid=userid),)
-
-
+            models.users.update("user_info",where="userid=$userid",vars=dict(userid=userid),**u_d)
+            return json.dumps({"code":1})
 
 

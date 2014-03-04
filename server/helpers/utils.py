@@ -34,6 +34,12 @@ def get_session(session_id):
     res = dbconn.query("select * from sessions where session_id = $session_id",vars=dict(session_id=session_id))
     return web.listget(res,0,None)
 
+def getUserId(session_id):
+    session = get_session(session_id)
+    if not session:
+        return None
+    userid = session.data
+    return userid
 
 def createSessionId():
     while True:
@@ -48,6 +54,7 @@ def createSessionId():
 
 def createSession(userid):
     session_id = createSessionId()
+    dbconn.delete("sessions",where="data=$userid",vars=dict(userid=userid))
     dbconn.insert("sessions",
         session_id=session_id,
         data = userid 
