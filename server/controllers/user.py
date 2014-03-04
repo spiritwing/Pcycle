@@ -52,6 +52,8 @@ class user_ctrl:
             if not data.has_key("userName"):
                 return json.dumps({"error":1001})
             userName = data.userName
+            if models.users.hasUserName(userName):
+                return json.dumps({"error":1002})
             ##选填项
             userWeight,userHeight,userAge,userPhoneNumber = None,None,None,None
             try:
@@ -80,8 +82,10 @@ class user_ctrl:
             if not userid:
                 return json.dumps({"errorCode":1001})
             u_dict = dict()
+            """
             if data.has_key("userName") and data.userName:
                 u_dict.update({"userName":data.userName})
+            """
             if data.has_key("userWeight") and data.userWeight:
                 u_dict.update({"userWeight":int(data.userWeight)})
             if data.has_key("userHeight") and data.userHeight:
@@ -90,7 +94,8 @@ class user_ctrl:
                 u_dict.update({"userAge":int(data.userAge)})
             if data.has_key("userPhoneNumber") and data.userPhoneNumber:
                 u_dict.update({"userPhoneNumber":data.userPhoneNumber})
-            models.users.update(userid,u_dict)
-            return json.dumps({"code":1})
+            if models.users.update(userid,u_dict):
+                return json.dumps({"code":1})
+            return json.dumps({"code":0})
 
 

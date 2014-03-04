@@ -88,3 +88,4 @@ response
 
 errorCode: 
 1001   "invalid sessionId or username"
+1002   "username has existed"

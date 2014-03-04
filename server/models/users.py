@@ -39,3 +39,6 @@ def create(**argv):
 def update(userid,u_dict):
     dbconn.update("user_info",where="userid=$userid",vars=dict(userid=userid),**u_dict)
     return True
+
+def hasUserName(userName):
+    return web.listget(dbconn.query("select * from user_info where userName=$userName",vars=dict(userName=userName)),0,None)
