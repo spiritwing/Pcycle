@@ -59,9 +59,9 @@ response
 request
     url: /data
     method: post
-    name:
-        *sessionId
-        *datafile compressed
+    upload file:
+        file name : sessionId
+        content: {"data":compressed json data}
 
 response:
     example:{

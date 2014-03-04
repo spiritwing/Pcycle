@@ -60,4 +60,21 @@ class data_pack:
 
 
     def GET(self):
-        pass
+        data = web.input()
+        if not data.has_key("sessionId") or not data.sessionId \
+            or not data.has_key("startStamp") or not data.startStamp \
+            or not data.has_key("endStamp") or not data.endStamp:
+            return web.notfound()
+        userid = getUserId(data.sessionId)
+        if not userid:
+            return json.dumps({"errorCode":1001})
+        l = list()
+        user_datas = models.datas.getData(userid,timestamp_to_date(float(data.startStamp)),timestamp_to_date(float(data.endStamp)))
+        for user_data in user_datas:
+            user_data.timeStamp = date_to_timestamp(user_data.timeStamp)
+            del user_data["userid"]
+            del user_data["ID"]
+            l.append(user_data)
+        return zlib.compress(json.dumps({"data":l}))
+
+        

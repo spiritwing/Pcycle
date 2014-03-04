@@ -15,3 +15,6 @@ def getLastTimeStamp(userid):
     if r:
         return date_to_timestamp(r.timeStamp)
     return None
+
+def getData(userid,start,end):
+    return dbconn.query("select * from user_data where userid=$userid limit 3600",vars=dict(userid=userid))
