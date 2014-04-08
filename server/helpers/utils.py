@@ -1,7 +1,7 @@
 #!/usr/bin/python
 #coding:utf-8
 import os,time,web,itertools
-from settings import dbconn,session_secret_key
+from settings import dbconn,session_secret_key,password_key
 from datetime import datetime
 try:
     import hashlib
@@ -69,3 +69,8 @@ def date_to_timestamp(dt):
 def timestamp_to_date(ts):
     return datetime.fromtimestamp(ts)
 
+def encode_password(password):
+    return sha1(password + password_key).hexdigest()
+
+def is_ascii(s):
+    return all(ord(c) < 128 for c in s)

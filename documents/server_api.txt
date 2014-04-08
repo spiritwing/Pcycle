@@ -9,11 +9,62 @@ response
     example:{"version":"0.2"}
 
 
-2. 请求user基本信息
+
+2 注册新用户
+request
+    url: /register
+    method: post
+    name:
+        *email
+        *password
+
+response
+    example: {
+        "code":1 成功，0 错误，
+        "sessionId":"3jff3kd3mmvhsfffsfaa",
+        if error "errorCode":1003
+    }
+
+3 用户登录
+request
+    url: /login
+    method: post
+    name:
+        *email
+        *password
+
+response
+    example: {
+        "code":1 成功，0 错误，
+        "sessionId":"3jff3kd3mmvhsfffsfaa",
+        if error "errorCode":1003
+    }
+
+
+4. 更新用户信息
+request
+    url: /user
+    method: post
+    name:
+        *sessionId
+        userName
+        userPhoneNumber
+        userWeight
+        userHeight
+        userAge
+
+response
+    example: {"code":1 成功, 0错误, 
+        if new "sessionId":"3jff3kd3mmvhsfffsfaa",
+        if error "errorCode":1004
+        }
+
+
+5. 请求user基本信息
 request
     url: /user
     method: get
-    *name: session_id or username
+    *name: sessionId 
     example: /user?sessionId=3jff3kd3mmvhsfffsfaa
 response
     format:json
@@ -23,39 +74,11 @@ response
         userWeight
         userHeight
         userAge
-        userMaxStamina
-        userMaxStaminaTimeStamp
-        userLastStamina
-        userTotalMileage
-        userFrontalArea
-        userMaxSpeed
-        userMaxSpeedTimeStamp
-        userMaxPower
-        userMaxPowerTimeStamp
-
-
-3. 注册或更新用户
-request
-    url: /user
-    method: post
-    name:
-        *type: new or update
-            if update *sessionId
-        userName
-        userPhoneNumber
-        userWeight
-        userHeight
-        userAge
-
-response
-    example: {"code":1 成功, 0错误, 
-        if new "sessionId":"3jff3kd3mmvhsfffsfaa"
-        if error "errorCode":1001
-        }
 
 
 
-4. 上传数据
+
+6. 上传数据
 request
     url: /data
     method: post
@@ -70,7 +93,7 @@ response:
     }
 
 
-5. 获取数据
+7. 获取数据
 request
     url: /data
     method: get
@@ -83,6 +106,21 @@ response
         "code":1 成功, 0 错误
         "data":compressed json data
     }
+
+
+8.  排行榜
+request
+    url: /rank
+    method: get
+    name:
+        *sessionId
+        *start
+        *end
+response
+    example:{
+        "rank":{},
+        "ranks":{}
+    }
     
 
 
@@ -90,3 +128,7 @@ errorCode:
 1001   "invalid sessionId or username"
 1002   "username has existed"
 1003   "data compressed error"
+1004   "email used"
+1005   "email or password format ilegal"
+1006   "email not invalid"
+1007   "email exsits but password not match"

@@ -4,23 +4,10 @@ import web
 from settings import dbconn
 from datetime import datetime
 
-def getUserByUsername(username):
-    res = dbconn.query("""
-                            select * from user_info ui 
-                                 left join user_stat ut
-                                 on ui.userid = ut.userid
-                                 where ui.userName = $username
-                       """
-         ,vars=dict(username=username))
-    u = web.listget(res,0,None)
-    return u    
-
 
 def getUserByID(userid):
     res = dbconn.query("""
-                            select * from user_info ui 
-                                 left join user_stat ut
-                                 on ui.userid = ut.userid
+                            select * from user_info ui
                                  where ui.userid = $userid
                        """
         ,vars=dict(userid=userid))
@@ -42,3 +29,6 @@ def update(userid,u_dict):
 
 def hasUserName(userName):
     return web.listget(dbconn.query("select * from user_info where userName=$userName",vars=dict(userName=userName)),0,None)
+
+def getUserByEmail(email):
+    return web.listget(dbconn.query("select * from user_info where email=$email",vars=dict(email=email)),0,None)
