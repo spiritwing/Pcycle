@@ -5,7 +5,6 @@ import web
 
 
 urls = (
-    "/","controllers.data.test",
     "/version","controllers.data.version",
     "/user","controllers.user.info",
     "/register","controllers.user.register",

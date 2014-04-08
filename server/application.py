@@ -4,9 +4,10 @@
 import web
 
 urls = (
-    "/","controllers.data.test",
     "/version","controllers.data.version",
-    "/user","controllers.user.user_ctrl",
+    "/user","controllers.user.info",
+    "/register","controllers.user.register",
+    "/login","controllers.user.login",
     "/data","controllers.data.data_pack",
 )
 
