@@ -1,0 +1,76 @@
+//
+//  AppDefaultAndConstValue.h
+//  Pcycle
+//
+//  Created by 郝 源顺 on 14-3-22.
+//  Copyright (c) 2014年 Shun. All rights reserved.
+//
+
+#ifndef Pcycle_AppDefaultAndConstValue_h
+#define Pcycle_AppDefaultAndConstValue_h
+
+#import <Foundation/Foundation.h>
+
+//-----------------------------------------------------Entity-----------------------------------------------------
+
+typedef  NSString* TIME_STAMP_TYPE;
+typedef NSString*  CYCLING_TIME;
+
+typedef enum _SlidingPanelRed {
+    SlidingPanelRedR = 221,
+    SlidingPanelRedG = 75,
+    SlidingPanelRedB = 57
+} SlidingPanelRed;
+
+#define  MAX_USER_WEIGHT 200
+#define  MAX_USER_HEIGHT 250
+#define  MAX_USER_AGE 100
+#define  MAX_USER_STAMINA 9999
+#define  MAX_USER_FRONTAL_AREA 9.999
+#define  MAX_USER_SPEED 99.9
+#define  MAX_USER_MAX_POWER 2000.0
+#define MAX_CLIMBING_HEIGHT 9.999
+#define MAX_DISTANCE 33.99
+#define MAX_GRADIENT 50.00
+#define MAX_CYCLING_TIME 86400
+#define MAX_CYCLING_MILEAGE 999.9
+#define MAX_CLIMB_HEIGHT 666.9
+#define MAX_CALORIE 21600
+#define MAX_ENERGY 86400000
+
+
+//-----------------------------------------------------PcycleSlidingPanel-----------------------------------------------------
+
+#define SLIDING_PANEL_FONT @"corbel"
+#define SLIDING_PANEL_FONT_GENERAL_SIZE 15
+#define SLIDING_PANEL_FONT_STAMINAL_SIZE 45
+
+#define SLIDING_CENTER_PANEL_TITLE_IMAGE @"CenterPanelTitle.png"
+#define SLIDING_CENTER_PANEL_TITLE_IMAGE_FRAME CGRectMake(150,12,20,20)
+
+#define SLIDING_CENTER_PANEL_MORE_SERVICE_IMAGE @"Moreservice.png"
+#define SLIDING_CENTER_PANEL_MORE_SERVICE_FRAME CGRectMake(16,9.5,25,25)
+
+#define SLIDING_CENTER_PANEL_SYNCHRONIZATION_IMAGE @"Synchronization.png"
+#define SLIDING_CENTER_PANEL_SYNCHRONIZATION_FRAME CGRectMake(279,9.5,25,25)
+
+#define SLIDING_CENTER_PANEL_SEPARATOR_IMAGE @"SeparatorLine.png"
+#define SLIDING_CENTER_PANEL_SEPARATOR_FRAME CGRectMake(0,64,320,3)
+
+#define SLIDING_CENTER_PANEL_START_IMAGE @"Start.png"
+#define SLIDING_CENTER_PANEL_STOP_IMAGE @"Stop.png"
+#define SLIDING_CENTER_PANEL_START_FRAME CGRectMake(122.5,435,75,75)
+
+#define SLIDING_LEFT_PANEL_BACKGROUND_IMAGE @"LeftPanelBackGround.png"
+
+#define SLIDING_CENTER_PANEL_CENTRAL_CIRCLE_IMAGE @"CentralCircle.png"
+#define SLIDING_CENTER_PANEL_CENTRAL_CIRCLE_FRAME CGRectMake(65,127.5,190,190)
+
+#define SLIDING_CENTER_PANEL_STAMINAL_FRAME CGRectMake(85,185,150,60)
+#define SLIDING_CENTER_PANEL_ACCELERATION_FRAME CGRectMake(20,335,280,20)
+#define SLIDING_CENTER_PANEL_STATEMENT_FRAME CGRectMake(20,360,280,20)
+
+#define SLIDING_CENTER_PANEL_PRESS_START @"Press Start"
+#define SLIDING_CENTER_PANEL_DEFAULT_STAMINAL @"0"
+
+#endif
