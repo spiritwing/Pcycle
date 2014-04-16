@@ -9,6 +9,8 @@ urls = (
     "/register","controllers.user.register",
     "/login","controllers.user.login",
     "/data","controllers.data.data_pack",
+    "/train","controllers.data.data_train",
+    "/rank","controllers.data.rank",
 )
 
 

@@ -78,7 +78,7 @@ response
 
 
 
-6. 上传数据
+6. 上传骑行数据
 request
     url: /data
     method: post
@@ -93,7 +93,7 @@ response:
     }
 
 
-7. 获取数据
+7. 获取骑行数据
 request
     url: /data
     method: get
@@ -108,18 +108,47 @@ response
     }
 
 
-8.  排行榜
+8. 上传训练数据
+request
+    url: /train
+    method: post
+    name:
+        *sessionId : sessionId
+        *data: quoted json data
+
+response:
+    example:{
+        "code":1 成功, 0 错误
+    }
+
+
+9  获取训练数据
+request
+    url: /train
+    method: get
+    name:
+        *sessionId
+        *startStamp
+        *endStamp
+response
+    example:{
+        "code":1 成功, 0 错误
+        "data":json data
+    }
+
+
+10.  排行榜
 request
     url: /rank
     method: get
     name:
         *sessionId
-        *start
-        *end
+        start
+        end
 response
     example:{
-        "rank":{},
-        "ranks":{}
+        "rank":{用户rank},
+        "ranks":{rank 列表}
     }
     
 
@@ -132,3 +161,5 @@ errorCode:
 1005   "email or password format ilegal"
 1006   "email not invalid"
 1007   "email exsits but password not match"
+
+

@@ -2,7 +2,7 @@
 #coding:utf-8
 import os,time,web,itertools
 from settings import dbconn,session_secret_key,password_key
-from datetime import datetime
+from datetime import datetime,timedelta,date
 try:
     import hashlib
     sha1 = hashlib.sha1
@@ -40,7 +40,7 @@ def getUserId(session_id):
     if not session:
         return None
     userid = session.data
-    return userid
+    return int(userid)
 
 def createSessionId():
     while True:
@@ -74,3 +74,14 @@ def encode_password(password):
 
 def is_ascii(s):
     return all(ord(c) < 128 for c in s)
+
+def get_last_Sunday():
+    d = datetime.now()
+    if d.weekday() <> 6:
+        d = d - timedelta(days=(d.weekday()+1) )
+    d = d.date()
+    d = datetime.combine(d, datetime.min.time())    
+    return d
+
+
+
