@@ -56,7 +56,7 @@ def login():
 def update_user():
     global url
     url += '/user'
-    values = {"sessionId":"3ed21ab26d3423c8d38a5674847e6b58563b70cf","userName":"thirtyjohn", "userPhoneNumber":"18602113130" ,"userWeight":65 ,"userHeight":176 ,"userAge":27 }
+    values = {"sessionId":"d83bef91f7a443b3005c176397a38425d1b75661","userName":"apple", "userPhoneNumber":"18600000000" ,"userWeight":65 ,"userHeight":176 ,"userAge":27 }
 
     data = urllib.urlencode(values)
     req = urllib2.Request(url, data)
@@ -143,4 +143,4 @@ def get_rank():
 
 
 
-get_rank()
+get_train_data()
