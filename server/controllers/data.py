@@ -39,7 +39,9 @@ class data_pack:
         if not data.has_key("sessionId") or not data.sessionId:
             return web.notfound()
         """
-        sessionId = data['datafile'].filename
+        print data
+	print data['datafile']
+	sessionId = data['datafile'].filename
         userid = getUserId(sessionId)
         if not userid:
             return json.dumps({"errorCode":1001})
