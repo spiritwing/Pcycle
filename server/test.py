@@ -25,7 +25,7 @@ f.close()
 import urllib
 import urllib2
 
-local_mode = 1
+local_mode = 0
 
 url = "http://127.0.0.1:3030" if local_mode else "http://app.pcycle.com"
 
@@ -74,10 +74,11 @@ def get_user():
 def multi_data():
     sessionId = "3ed21ab26d3423c8d38a5674847e6b58563b70cf"
     l = list()
-    for i in range(0,3600):
+    for i in range(0,36):
         l.append({'speed':random.uniform(1, 100), 'power':random.uniform(1, 100), 'timeStamp':date_to_timestamp(datetime.now()), 'longitude':random.uniform(1, 100), 'latitude':random.uniform(1, 100), 'altitude':random.uniform(1, 100), 'climbHeight':random.uniform(1, 100), 'distance':random.uniform(1, 100), 'gradient':random.uniform(1, 100)})
     d = dict(data=l)
     j = json.dumps(d)
+
     data_ziped = zlib.compress(j,9)
     f = open(sessionId,"w")
     f.write(data_ziped)
@@ -94,6 +95,7 @@ def multi_data():
     register_openers()
     datagen, headers = multipart_encode({"datafile": open(sessionId, "rb")})
     request = urllib2.Request(url, datagen, headers)
+    print request.headers
     print urllib2.urlopen(request).read()
     print datetime.now()
     print "******************"
@@ -143,4 +145,4 @@ def get_rank():
 
 
 
-get_train_data()
+multi_data()
