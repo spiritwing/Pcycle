@@ -25,7 +25,12 @@ def multiple_insert_train(vs):
 
 
 def getTrainData(userid,start,end):
-    return dbconn.query("select * from user_train_data where userid=$userid and userCyclingTimeStamp between $start and $end",vars=dict(userid=userid,start=start,end=end))
+    return dbconn.query("""
+        select * from user_train_data where id in(
+            select max(id) from user_train_data where userid=$userid and userCyclingTimeStamp between $start and $end
+            group by date(userCyclingTimeStamp)
+        )
+        """,vars=dict(userid=userid,start=start,end=end))
 
 
 def get_rank(userid):
