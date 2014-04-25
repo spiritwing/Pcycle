@@ -39,15 +39,15 @@ class data_pack:
         if not data.has_key("sessionId") or not data.sessionId:
             return web.notfound()
         """
-        print data
-	print data['datafile']
+        ##print data
+	    ##print data['datafile']
         sessionId = data['datafile'].filename
         userid = getUserId(sessionId)
         if not userid:
             return json.dumps({"errorCode":1001})
         data_compressed = None
         try:
-            data_compressed = zlib.decompress(data['datafile'].value)
+            data_compressed = zlib.decompress(data['datafile'].value, zlib.MAX_WBITS|32)
         except:
             print traceback.format_exc()
 	    return json.dumps({"errorCode":1003})
