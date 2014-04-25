@@ -1,6 +1,6 @@
 #!/usr/bin/python
 #coding:utf-8
-
+import traceback
 import web,json,zlib,urllib
 from settings import current_version
 from datetime import datetime
@@ -39,8 +39,8 @@ class data_pack:
         if not data.has_key("sessionId") or not data.sessionId:
             return web.notfound()
         """
-        ##print data
-	    ##print data['datafile']
+        print data
+	print data['datafile']
         sessionId = data['datafile'].filename
         userid = getUserId(sessionId)
         if not userid:
@@ -49,7 +49,8 @@ class data_pack:
         try:
             data_compressed = zlib.decompress(data['datafile'].value)
         except:
-            return json.dumps({"errorCode":1003})
+            print traceback.format_exc()
+	    return json.dumps({"errorCode":1003})
         data_json = json.loads(data_compressed)["data"]
         for d in data_json:
             d.update({"userid":userid,"timeStamp":timestamp_to_date(d["timeStamp"])})
