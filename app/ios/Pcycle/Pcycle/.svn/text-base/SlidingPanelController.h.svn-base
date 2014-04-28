@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AppDefaultAndConstValue.h"
 
 typedef enum _SlidingPanelStyle {
     SlidingPanelSingleActive = 0,

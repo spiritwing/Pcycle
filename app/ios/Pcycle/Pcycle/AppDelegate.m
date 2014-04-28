@@ -26,23 +26,21 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+    if ([LoginFacade isLogin])
+    {
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName: @"Main"bundle:nil];
+        self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+        self.window.rootViewController = [storyboard instantiateInitialViewController];
+        [self.window makeKeyAndVisible];
+    }
+    else
+    {
+        
+    }
     
-//    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-//	
-//    self.pSlidingPanelController = [[PcycleSlidingPanelController alloc] init];
-//    
-//    self.pSlidingPanelController.shouldDelegateAutorotateToVisiblePanel = NO;
-//
-//    self.pSlidingPanelController.leftPanel = [[SlidingLeftViewController alloc] init];
-//    
-//    self.pSlidingPanelController.centerPanel = [[UINavigationController alloc] initWithRootViewController:[[SlidingCenterViewController alloc] init]];
-//    
-//    self.pSlidingPanelController.rightPanel = [[SlidingRightViewController alloc] init];
-////	self.viewController.leftPanel = [[SlidingLeftViewController alloc] init];
-////	self.viewController.centerPanel = [[UINavigationController alloc] initWithRootViewController:[[SlidingCenterViewController alloc] init]];
-////	self.viewController.rightPanel = [[SlidingRightViewController alloc] init];
-//		self.window.rootViewController = self.pSlidingPanelController;
-//    [self.window makeKeyAndVisible];
+                   
+    
+    
     return YES;
 
 }

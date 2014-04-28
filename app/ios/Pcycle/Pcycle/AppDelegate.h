@@ -5,7 +5,7 @@
 //  Created by 郝 源顺 on 14-3-22.
 //  Copyright (c) 2014年 Shun. All rights reserved.
 //
-
+#import "LoginFacade.h"
 #import <UIKit/UIKit.h>
 
 @class PcycleSlidingPanelController;

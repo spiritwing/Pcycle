@@ -36,4 +36,28 @@
     [super viewWillAppear:animated];
 }
 
+#pragma mark --------------- Init UI ---------------
+
+
+
+
+
+#pragma mark --------------- Screen ---------------
+
+- (BOOL) shouldAutorotateToInterfaceOrientation:
+(UIInterfaceOrientation)InterfaceOrientation {
+    return (InterfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+- (BOOL) shouldAutorotate
+{
+    return NO;
+}
+
+- (NSUInteger)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskPortrait;
+}
+
+
+
 @end

@@ -367,15 +367,6 @@ NSThread *timerThread;
         {
             PCyclingData *temp = [NSEntityDescription insertNewObjectForEntityForName:@"PCyclingData" inManagedObjectContext:self.appDelegate.managedObjectContext];
             
-//            temp.speed = [[[[self PersistSwitchSet] objectAtIndex:i] objectForKey:@"speed"] floatValue];
-//            temp.power = [[[[self PersistSwitchSet] objectAtIndex:i] objectForKey:@"power"] floatValue];
-//            temp.timeStamp = [[[self PersistSwitchSet] objectAtIndex:i] objectForKey:@"timeStamp"];
-//            temp.longitude = [[[[self PersistSwitchSet] objectAtIndex:i] objectForKey:@"longitude"] doubleValue];
-//            temp.latitude = [[[[self PersistSwitchSet] objectAtIndex:i] objectForKey:@"latitude"] doubleValue];
-//            temp.altitude = [[[[self PersistSwitchSet] objectAtIndex:i] objectForKey:@"altitude"] floatValue];
-//            temp.climbHeight = [[[[self PersistSwitchSet] objectAtIndex:i] objectForKey:@"climbHeight"] floatValue];
-//            temp.distance = [[[[self PersistSwitchSet] objectAtIndex:i] objectForKey:@"distance"] floatValue];
-//            temp.gradient = [[[[self PersistSwitchSet] objectAtIndex:i] objectForKey:@"gradient"] floatValue];
             [self GetDataFormNSDictionary:[[self PersistSwitchSet] objectAtIndex:i] ToPcyclingDataEntity:temp];
             NSLog(@"Persist ---------------------------%f" , temp.power);
             NSLog(@"Persist ---------------------------%i" , self.setFlag);
@@ -408,12 +399,18 @@ NSThread *timerThread;
     temp.userCyclingTimeStamp = self.startCycleTime;
     temp.userCyclingMileage = [NSNumber numberWithFloat:self.sumDistance];
     temp.userCyclingStamina = [NSNumber numberWithInt:2456];
-    temp.userClimbHeight = [NSNumber numberWithFloat:34.56f];
-    temp.userCalorie = [NSNumber numberWithFloat:2685.5];
+    temp.userClimbHeight = [NSNumber numberWithFloat: self.sumClimb];
+    temp.userCalorie = [NSNumber numberWithFloat: [self.calculate TranslateJouleToKCalorie:self.sumPower]];
+    NSLog(@"Calorie:-----------------------%f" , [self.calculate TranslateJouleToKCalorie:self.sumPower]);
     temp.userEnergy = [NSNumber numberWithDouble:34353.2];
     temp.userCyclingAverageSpeed = [NSNumber numberWithFloat:(self.sumDistance/self.sumTime)*3.6];
+    NSLog(@"MaxSpeed:-----------------------%f" , self.maxSpeed);
     temp.userCyclingMaxSpeed = [NSNumber numberWithFloat:self.maxSpeed];
     temp.userCyclingAveragePower = [NSNumber numberWithFloat:self.sumPower/self.sumTime];
+    NSLog(@"SumPower:-------------------------%f" , self.sumPower);
+    NSLog(@"SumTime:-------------------------%f" , self.sumTime);
+    NSLog(@"SumDistance:-------------------------%f" , self.sumDistance);
+    NSLog(@"MaxAveragePower:-----------------------%f" , self.sumPower/self.sumTime);
     temp.userCyclingMaxPower = [NSNumber numberWithFloat:self.maxPower];
     temp.isUploaded = NO;
     
@@ -458,6 +455,7 @@ NSThread *timerThread;
 		[self.locationManager startUpdatingLocation];
         
         self.startCycleTime = [self convertDateToLocalTime:[NSDate date]];
+        self.staminaQueue = [[PcycleQueue alloc] init];
         NSLog(@"T1: %@" , self.startCycleTime);
         [self PersistenceThread];
         [self startTimerThread];
@@ -473,6 +471,10 @@ NSThread *timerThread;
     [self.locationManager stopUpdatingLocation];
     [persistThread cancel];
     [timerThread cancel];
+    NSLog(@"%d" , self.staminaQueue.GetQueueLength);
+    [self.staminaQueue ShowAll];
+    [self.staminaQueue ClearQueue];
+    NSLog(@"%d" , self.staminaQueue.GetQueueLength);
 }
 
 -(void)locationManager:(CLLocationManager *)manager
@@ -494,6 +496,17 @@ NSThread *timerThread;
         
         self.sumDistance += distance;
         
+        CGFloat climbHeight = newLocation.altitude-self.prevLocation.altitude;
+        
+        if (climbHeight < 0)
+        {
+            climbHeight = 0;
+        }
+        
+        self.sumClimb += climbHeight;
+        
+        //NSLog(@"SumDistance:-----------------%f" , self.sumDistance);
+        
         float FrontArea = [self.calculate CalculateFrontalArea_Height:185.0 Weight:66];
         
         NSLog(@"%f  %f %f %f " , self.prevLocation.speed , newLocation.speed , (newLocation.altitude-self.prevLocation.altitude), distance);
@@ -505,15 +518,47 @@ NSThread *timerThread;
         }
         
         NSLog(@"Power  %f" , Power);
-        
+        self.sumPower += Power;
+        //NSLog(@"SumPower:-----------------%f" , self.sumPower);
+
         if (Power > self.maxPower) {
             self.maxPower = Power;
             NSLog(@"MAXPower  %f" , self.maxPower);
            // NSLog(@"MAXPower  %f" , [[NSString stringWithFormat:@"%.1f" , self.maxPower] floatValue]);
            // NSLog(@"MAXPower  %i" , (int)self.maxPower);
-            self._staminaLabel.text = [NSString stringWithFormat:@"%i" , (int)self.maxPower *10];
+            //self._staminaLabel.text = [NSString stringWithFormat:@"%i" , (int)self.maxPower *10];
+        }
+        NSNumber * headStamina = [NSNumber alloc];
+        
+        if (self.staminaCount < STAMINA_TEST_TIME)
+        {
+            if (![self.staminaQueue EntryQueueRear:[NSNumber numberWithFloat:Power]])
+            {
+                NSLog(@"Queue Entry Wrong");
+            }
+            self.sumStamina += Power;
+        }
+        else
+        {
+            headStamina = self.staminaQueue.GetQueueHead ;
+            
+            if (![self.staminaQueue EntryQueueRear:[NSNumber numberWithFloat:Power]])
+            {
+                NSLog(@"Queue Entry Wrong");
+            }
+            self.sumStamina = self.sumStamina + Power - [headStamina floatValue];
         }
         
+        NSLog(@"sumStamina:----------------- %f" ,  self.sumStamina);
+        NSLog(@"StaminaQueue Count -------- %d" , self.staminaQueue.GetQueueLength);
+        ++self.staminaCount;
+        self._staminaLabel.text = [NSString stringWithFormat:@"%i" ,  (int) (self.sumStamina/STAMINA_TEST_TIME*10)];
+        
+        if(self.maxSpeed<self.prevLocation.speed)
+        {
+            self.maxSpeed = self.prevLocation.speed;
+        }
+        //NSLog(@"SumPower:-----------------%f", self.maxSpeed);
         self.speedLabel.text = [NSString stringWithFormat:@"%.2fkm/h" , newLocation.speed * 3.6];
         self.powerLabel.text = [NSString stringWithFormat:@"%.2f" , Power];
         self.mileageLabel.text = [NSString stringWithFormat:@"%.3fkm",self.sumDistance /1000];
@@ -525,7 +570,7 @@ NSThread *timerThread;
                                  [NSNumber numberWithDouble : newLocation.coordinate.longitude] , @"longitude",
                                  [NSNumber numberWithDouble :newLocation.coordinate.latitude ], @"latitude" ,
                                  [NSNumber numberWithFloat:newLocation.altitude ], @"altitude" ,
-                                 [NSNumber numberWithFloat:(newLocation.altitude-self.prevLocation.altitude) ], @"climbHeight" ,
+                                 [NSNumber numberWithFloat:climbHeight ], @"climbHeight" ,
                                  [NSNumber numberWithFloat:distance] , @"distance" ,
                                  [NSNumber numberWithFloat:12.2 ], @"gradient" ,nil];
         

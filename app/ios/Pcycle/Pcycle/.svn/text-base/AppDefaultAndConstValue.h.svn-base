@@ -22,6 +22,20 @@ typedef enum _SlidingPanelRed {
     SlidingPanelRedB = 57
 } SlidingPanelRed;
 
+typedef enum _SlidingPanelBlue {
+    SlidingPanelBlueR = 51,
+    SlidingPanelBlueG = 173,
+    SlidingPanelBlueB = 237
+} SlidingPanelBlue;
+
+
+#define USER_HEIGHT_PRECISION 1
+#define USER_WEIGHT_PRECISION 1
+
+#define MIN_USER_AGE 10
+#define MIN_USER_WEIGHT 30
+#define MIN_USER_HEIGHT 100
+
 #define  MAX_USER_WEIGHT 200
 #define  MAX_USER_HEIGHT 250
 #define  MAX_USER_AGE 100
@@ -39,11 +53,23 @@ typedef enum _SlidingPanelRed {
 #define MAX_ENERGY 86400000
 
 
+//-----------------------------------------------------Calculate-----------------------------------------------------
+
+#define ConstJouleToKCalorie 4185.851820
+#define STAMINA_TEST_TIME 600
+
 //-----------------------------------------------------PcycleSlidingPanel-----------------------------------------------------
+
+#define SLIDING_LEFT_PANEL_PERCENTAGE 0.7f
+#define SLIDING_RIGHT_PANEL_PERCENTAGE 0.8f
 
 #define SLIDING_PANEL_FONT @"corbel"
 #define SLIDING_PANEL_FONT_GENERAL_SIZE 15
-#define SLIDING_PANEL_FONT_STAMINAL_SIZE 55
+#define SLIDING_PANEL_FONT_STAMINAL_SIZE 45
+#define SLIDING_VERSION_FONT_SIZE 14
+#define SLIDING_USER_NAME_SIZE 15
+#define SLIDING_USER_STAMINA_SIZE 38
+#define SLIDING_LEFT_PANEL_FUNCTION_TEXT_FONE_SIZE 12
 
 #define SLIDING_CENTER_PANEL_TITLE_IMAGE @"CenterPanelTitle.png"
 #define SLIDING_CENTER_PANEL_TITLE_IMAGE_FRAME CGRectMake(150,12,20,20)
@@ -62,6 +88,21 @@ typedef enum _SlidingPanelRed {
 #define SLIDING_CENTER_PANEL_START_FRAME CGRectMake(122.5,435,75,75)
 
 #define SLIDING_LEFT_PANEL_BACKGROUND_IMAGE @"LeftPanelBackGround.png"
+#define SLIDING_LEFT_PANEL_BLUR_IMAGE @"LeftPanelBlur.png"
+#define SLIDING_LEFT_PANEL_HEAD_PORTRAIT_IMAGE @"HeadPortrait.png"
+#define SLIDING_LEFT_PANEL_BLUR_IMAGE_ALPHA 0.25f
+#define SLIDING_LEFT_PANEL_SEPARATE_LINE @"LeftPanelSeparateLine.png"
+#define SLIDING_LEFT_PANEL_INDEX @"LeftPanelIndex.png"
+#define SLIDING_LEFT_PANEL_JOURNAL @"LeftPanelJournal.png"
+#define SLIDING_LEFT_PANEL_LEADERBOARD @"LeftPanelLeaderboard.png"
+#define SLIDING_LEFT_PANEL_PROFILE @"LeftPanelProfile.png"
+#define SLIDING_LEFT_PANEL_SETTING @"LeftPanelSettings.png"
+
+#define SLIDING_LEFT_PANEL_INDEX_TEXT @"首页"
+#define SLIDING_LEFT_PANEL_JOURNAL_TEXT @"骑行记录"
+#define SLIDING_LEFT_PANEL_LEADERBOARD_TEXT @"排行榜"
+#define SLIDING_LEFT_PANEL_PROFILE_TEXT @"个人信息"
+#define SLIDING_LEFT_PANEL_SETTING_TEXT @"设置"
 
 #define SLIDING_CENTER_PANEL_CENTRAL_CIRCLE_IMAGE @"CentralCircle.png"
 #define SLIDING_CENTER_PANEL_CENTRAL_CIRCLE_FRAME CGRectMake(65,127.5,190,190)
@@ -71,6 +112,130 @@ typedef enum _SlidingPanelRed {
 #define SLIDING_CENTER_PANEL_STATEMENT_FRAME CGRectMake(20,360,280,20)
 
 #define SLIDING_CENTER_PANEL_PRESS_START @"Press Start"
-#define SLIDING_CENTER_PANEL_DEFAULT_STAMINAL @"2884"
+#define SLIDING_CENTER_PANEL_DEFAULT_STAMINAL @"0"
+
+#define DEFAULT_VERSION @"v 0.1"
+#define DEFAULT_USERNAME @"haoshuncool"
+#define DEFAULT_STAMINA @"#361"
+
+//-----------------------------------------------------Login-----------------------------------------------------
+#define  LOGIN_BACKGROUND_IMAGE @"Login.png"
+#define  REGISTER_BACKGROUND_IMAGE @"Login.png"
+
+#define LOGIN_USERNAME_FIELD_FRAME CGRectMake(20,80,280,40)
+#define LOGIN_PASSWORD_FIELD_FRAME CGRectMake(20, 140,280,40)
+
+#define LOGIN_USERNAME_FIELD_PLACEHOLDER @"请输入用户名"
+#define LOGIN_PASSWORD_FIELD_PLACEHOLDER @"请输入密码"
+
+#define LOGIN_LOGIN_BUTTON_FRAME CGRectMake(70,300,60,20 )
+#define LOGIN_REGISTER_BUTTON_FRAME CGRectMake(190,300,60,20)
+
+#define LOGIN_TEXT @"登录"
+#define REGISTER_TEXT @"注册"
+#define USER_INFORMATION_TEXT @"个人信息"
+
+#define REGISTER_TITLE_IMAGE_FRAME CGRectMake(0,0,320,74)
+
+#define REGISTER_USERNAME_FIELD_FRAME CGRectMake(20,80,280,40)
+#define REGISTER_PASSWORD_FIELD_FRAME CGRectMake(20, 140,280,40)
+
+#define REGISTER_USERNAME_FIELD_PLACEHOLDER @"手机或邮箱"
+#define REGISTER_PASSWORD_FIELD_PLACEHOLDER @"密码"
+
+#define USER_NAME_TEXT @"用户名"
+#define USER_AGE_TEXT @"年    龄"
+#define USER_HEIGHT_TEXT @"身    高"
+#define USER_WEIGHT_TEXT @"体    重"
+#define USER_SUBMIT_TEXT @"提交"
+
+#define USER_AGE_ALERT @"请输入你的年龄。"
+#define USER_CANCEL @"取消"
+#define USER_CONFIRM @"确认"
+#define REMINDER @"提示"
+
+#define LOGINING @"登陆中..."
+#define REGISTERING @"注册中..."
+
+#define USER_REGISTER_TO_INFO_SEGUE @"RegisterSuccess"
+
+#define USER_INFORMATION_LABEL_FONT_SIZE 18
+
+#define USER_ALERT_FRAME CGRectMake(0,0,280,180)
+#define USER_AGE_PICKER_FRAME CGRectMake(10,10,260,160)
+#define USER_HEIGHT_PICKER_FRAME CGRectMake(10,10,260,160)
+#define USER_WEIGHT_PICKER_FRAME CGRectMake(10,10,260,160)
+
+#define USER_FIRST_PICKER_WIDTH 170.0
+#define USER_SECOND_PICKER_WIDTH 90.0
+#define USER_PICKER_WIDTH 260.0
+
+#define USER_FIRST_PICKER_HEIGHT 40.0
+#define USER_SECOND_PICKER_HEIGHT 30.0
+#define USER_PICKER_HEIGHT 40.0
+
+//-----------------------------------------------------server-----------------------------------------------------
+
+#define SERVER_API @"http://app.pcycle.com"
+#define SERVER_API_VERSION @"/version"
+#define SERVER_API_REGISTER @"/register"
+#define SERVER_API_LOGIN @"/login"
+#define SERVER_API_USER @"/user"
+#define SERVER_API_CYCLING @"/data"
+#define SERVER_API_TRAIN @"/train"
+#define SERVER_API_RANK @"/rank"
+
+#define SERVER_CODE @"code"
+
+#define USER_NAME_KEY @"email"
+#define USER_PASSWORD_KEY @"password"
+
+#define REQUEST_TIMEOUT 15
+#define REQUEST_TIMEOUT_KEY @"requestTime"
+
+
+//-----------------------------------------------------userdefault-----------------------------------------------------
+#define USER_LOGIN_SESSIONID @"sessionId"
+#define APP_VERSION @"version"
+#define USER_NAME @"username"
+#define USER_PASSWORD @"userpassword"
+#define USER_EMAIL @"useremail"
+
+#define NONE_SESSIONID @"none_sessionId"
+
+
+//-----------------------------------------------------errorcode-----------------------------------------------------
+
+typedef enum {
+    Authentication_Succeed = 0,
+    Authentication_Faild
+}AuthenticationResult;
+
+typedef enum {
+    REQUEST_SUCCESS = 1,
+    REQUEST_FAILD = 0
+}ServerRequest;
+
+typedef enum {
+    Succeed = 1000,
+    Invalid_sessionId_or_username = 1001,
+    Username_has_existed = 1002,
+    Data_compressed_error =1003,
+    Email_used = 1004,
+    Email_or_password_format_ilegal =1005,
+    Email_not_invalid =1006,
+    Email_exsits_but_password_not_match =1007,
+    
+    Request_timeout = 2000
+} ErrorCode;
+
+#define ERROR_CODE @"errorCode"
+
+#define ERROR_EMAIL @"请输入正确的邮箱地址"
+
+
+
+
+
 
 #endif

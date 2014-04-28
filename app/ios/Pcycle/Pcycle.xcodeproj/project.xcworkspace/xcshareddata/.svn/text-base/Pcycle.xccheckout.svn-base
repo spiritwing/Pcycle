@@ -14,7 +14,7 @@
 		<string>svn://127.0.0.1/IOSDevelop/Pcycle</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>Pcycle.xcodeproj/project.xcworkspace</string>
+	<string>Pcycle/Pcycle.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>7D6E488C-E525-42B6-8F4D-1D6948822A4C</key>

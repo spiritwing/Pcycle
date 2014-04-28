@@ -115,8 +115,8 @@ static char ja_kvoContext;
 
 - (void)_baseInit {
     self.style = SlidingPanelSingleActive;
-    self.leftGapPercentage = 0.8f;
-    self.rightGapPercentage = 0.8f;
+    self.leftGapPercentage = SLIDING_LEFT_PANEL_PERCENTAGE;
+    self.rightGapPercentage = SLIDING_RIGHT_PANEL_PERCENTAGE;
     self.minimumMovePercentage = 0.15f;
     self.maximumAnimationDuration = 0.2f;
     self.bounceDuration = 0.1f;

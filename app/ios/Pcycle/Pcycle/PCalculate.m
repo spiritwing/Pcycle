@@ -26,5 +26,10 @@
     return Wd + Wh + Wi + Wr;
 }
 
+-(float) TranslateJouleToKCalorie: (float) joule
+{
+    return joule/ConstJouleToKCalorie;
+}
+
 @end
 

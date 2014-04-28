@@ -14,6 +14,7 @@
 #import "PCyclingData.h"
 #import <CoreLocation/CoreLocation.h>
 #import "PCalculate.h"
+#import "PcycleQueue.h"
 #define LOOPTIME 10
 
 @interface SlidingCenterViewController : SlidingBaseViewController <CLLocationManagerDelegate>
@@ -33,10 +34,16 @@
 @property (nonatomic , assign) CGFloat sumDistance;
 @property (nonatomic , assign) CGFloat sumTime;
 @property (nonatomic , assign) CGFloat sumPower;
+@property (nonatomic , assign) CGFloat sumClimb;
 @property (nonatomic , retain) NSDate *startCycleTime;
 @property (nonatomic , assign) float maxPower;
 @property (nonatomic , assign) float maxSpeed;
 @property (atomic, assign) int setFlag;
+
+//体能队列
+@property (nonatomic , retain) PcycleQueue * staminaQueue;
+@property (nonatomic , assign) float sumStamina;
+@property (nonatomic , assign) int staminaCount;
 
 @property (atomic, assign) int startButtonFlag;
 @property (atomic , assign) float cycleTime;
